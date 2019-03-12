@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title></title>
+        <meta name="author" content="Warren Haksins">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    </head>
+
+    <body>
+        <div class="container">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <h1>{{message}}</h1>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            <h1>Login or Register</h1>
+            <div class="login_reg">
+                <h2>Register here!</h2>
+                <form action="/register" method="POST">
+                {% for field in reg_fields %}
+                <label for="">{{reg_fields[field]}}</label>
+                <div id="{{field}}_message"></div>
+                <input id="{{field}}" type="{{'text' if 'pass' not in field else 'password'}}" name="{{field}}"><br>
+                {% endfor %}
+                <input type="submit" name="">
+                </form>
+            </div>
+            <div class="login_reg">
+                <h2>Login here!</h2>
+                <form action="/login" method="POST">
+                    {% for field in log_fields %}
+                    <label for="">{{log_fields[field]}}</label>
+                    <input type="{{'text' if 'pass' not in field else 'password'}}" name="{{field}}"><br>
+                    {% endfor %}
+                    <input type="submit" name="" >
+                    </form>
+            </div>
+        </div>
+    </body>
+</html>

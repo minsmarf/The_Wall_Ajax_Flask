@@ -1,0 +1,17 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.login_reg{
+    display: inline-block;
+    width: 30%;
+    padding-left: 15px;
+    vertical-align: top;
+}
+.success{
+    color: green;
+}
+.error{
+    color: red;
+}

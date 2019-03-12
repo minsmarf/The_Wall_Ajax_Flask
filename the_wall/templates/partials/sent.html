@@ -1,0 +1,10 @@
+{% if valid == True %}
+<p>Message successfully sent</p>
+<input type='hidden' name = '{{leftcount}} Message(s) for your name' class='received'/>
+<input type='hidden' name = 'You have sent a total of {{message_count}} messages so far' class='sent'/>
+
+{% else %}
+<p>Message must be more than 5 characters</p>
+<input type='hidden' name = '{{temp}}' class='temp'/>
+
+{% endif %}

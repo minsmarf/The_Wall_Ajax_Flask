@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<style>
+	*{
+		margin:0px;
+		padding:0px;
+	}
+	body{
+		padding-left:50px;
+	}
+	h1 {
+		margin-bottom:20px;
+	}
+	h2 {
+		margin-bottom:20px;
+	}
+	div.container{
+		width:40%;
+		display:inline-block;
+		text-align:left;
+		vertical-align:top;
+    height:800px;
+    overflow-y:scroll;
+	}
+
+	label{
+		margin-bottom:10px;
+		display:block;
+	}
+	textarea{
+		vertical-align:top;
+	}
+	button{
+		display:inline-block;
+	}
+	p{
+		display:block;
+	}
+	p.message{
+		display:inline-block;
+	}
+</style>
+
+</head>
+<body>
+	<div class='header'>
+	<h1>Coding Dojo Wall (Simplified)</h1>
+	<h2>Welcome, {{session['name']}}!</h2>
+	<a href='/logout'>Logout</a>
+	</div>
+	<div class='container'>
+		<h2 class = 'wonk'>{{leftcount}} Message(s) for your name</h2>
+		{% for i in left: %}
+		<form action='/delete' method='post' class='delete'>
+			<input type='hidden' name='from_r' value="{{i['sid']}}">
+			<input type='hidden' name='message_id' value = "{{i['mid']}}">
+			<label>
+				{{i['sender_name']}} said {{i['created_at']|duration_elapsed}}<p name='message'>"{{i['message']}}"</p>
+        <button type='submit' value='Delete' class = 'deleter'>Delete</button>
+			</label>
+		</form>
+		{% endfor %}
+    <div id = 'placeholder'>
+    </div>
+	</div>
+	<div class='container'>
+		<h2> Send a message.</h2>
+		<p class='wonk2'>You have sent a total of {{rightcount}} messages so far.</p>
+		{% for i in right: %}
+			{% if i['id'] != session['id']: %}
+		<form action='/send' method='post' class='sender'>
+			<input type='hidden' name='to_r' value="{{i['id']}}">
+			<div class='placeholder2'></div>
+			<label>
+				
+				{{i['first_name']}} <textarea name='message'></textarea><input type='submit' value='Send'/>
+			</label>
+		</form>
+			{% endif %}
+		{% endfor %}
+	</div>
+  <script>
+    $('.delete').submit(function(e){
+      e.preventDefault;
+      $.ajax({
+        url:'/delete',
+        method:'POST',
+        data: $(this).serialize(),
+      })
+        .done(function(response){
+          console.log('has been removed')
+        })
+      $(this).remove()
+      return false;
+    })
+		$('.sender').submit(function(e){
+			var element = this;
+			e.preventDefault;
+			$.ajax({
+				url:'/send',
+				method:'post',
+				data:$(this).serialize(),
+			})
+			.done(function(response){
+				console.log('has been sent')
+				$(element).find('.placeholder2').html(response)
+				$(element).children().children('textarea').val($(element).find('.temp').attr('name'))
+				$('.wonk').html($(element).find('.received').attr('name'))
+				$('.wonk2').html($(element).find('.sent').attr('name'))
+			})
+			// $(this).children().children('textarea').val('')
+			
+				
+			return false;
+			
+		})
+  </script>
+</body>
+</html>

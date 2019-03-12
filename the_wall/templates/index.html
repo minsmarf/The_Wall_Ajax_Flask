@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+	*{
+		margin:0px;
+		padding:0px;
+	}
+	body{
+		padding-left:50px;
+	}
+	h1 {
+		margin-bottom:20px;
+	}
+	h2 {
+		margin-bottom:20px;
+	}
+	div.container{
+		width:40%;
+		display:inline-block;
+		text-align:left;
+		vertical-align:top;
+	}
+
+	label{
+		margin-bottom:10px;
+		display:block;
+	}
+</style>
+</head>
+<body>
+		<h1>Login and Registration</h1>
+	<div class = 'container'>
+		<h2>Register here!</h2>
+		<form action='/validate' method='post'>
+			<input type='hidden' name='action' value='register'>
+			{% with errors = get_flashed_messages(category_filter=['first_name']) %}
+			{% if errors %}
+				{% for msg in errors %}
+					<p class = "error"> {{ msg }} </p>
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+			<label>
+				First name:
+				<input type='text' name='first_name' value="{{session['first_name']}}">	
+			</label>
+			{% with errors = get_flashed_messages(category_filter=['last_name']) %}
+			{% if errors %}
+				{% for msg in errors %}
+					<p class = "error"> {{ msg }} </p>
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+			<label>
+				Last name:
+				<input type='text' name='last_name' value="{{session['last_name']}}">	
+			</label>
+			{% with errors = get_flashed_messages(category_filter=['email']) %}
+			{% if errors %}
+				{% for msg in errors %}
+					<p class = "error"> {{ msg }} </p>
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+			<label>
+				Email:
+				<input type='text' name='email' value="{{session['email']}}">	
+			</label>
+			{% with errors = get_flashed_messages(category_filter=['password']) %}
+			{% if errors %}
+				{% for msg in errors %}
+					<p class = "error"> {{ msg }} </p>
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+			<label>
+				Password:
+				<input type='password' name='password'>	
+			</label>
+			{% with errors = get_flashed_messages(category_filter=['pass_con']) %}
+			{% if errors %}
+				{% for msg in errors %}
+					<p class = "error"> {{ msg }} </p>
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+			<label>
+				Confirm password:	
+				<input type='password' name='password_confirmation'>
+			</label>
+			<button type='submit' value='Submit'>Register!</button>
+		</form>
+	</div>
+	<div class = 'container'>
+		<h2>Login here!</h2>
+			{% with errors = get_flashed_messages(category_filter=['login']) %}
+			{% if errors %}
+				{% for msg in errors %}
+					<p class = "error"> {{ msg }} </p>
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+		<form action='/validate' method='post'>
+			<input type='hidden' name='action' value='login'>
+			<label>
+				Email:
+				<input type='text' name='email'>	
+			</label>
+			<label>
+				Password:
+				<input type='password' name='password'>	
+			</label>
+			<button type='submit' value='Submit'>Login!</button>
+		</form>
+	
+	</div>
+</body>
+</html>
